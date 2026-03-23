@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows 7 Professional</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ESCRITORIO -->
+  <div id="desktop" class="desktop">
+    <div class="icon" id="icon-mycomputer" data-id="mycomputer" data-slot="">
+      <img src="img/my-computer.png" alt="Mi PC" width="48" height="48" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <i class="icon-fallback fa-solid fa-computer" style="display:none"></i>
+      <span>Mi PC</span>
+    </div>
+    <div class="icon" id="icon-network" data-id="network" data-slot="">
+      <img src="img/network.png" alt="Red" width="48" height="48" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <i class="icon-fallback fa-solid fa-network-wired" style="display:none"></i>
+      <span>Red</span>
+    </div>
+    <div class="icon" id="icon-controlpanel" data-id="controlpanel" data-slot="">
+      <img src="img/control-panel.png" alt="Panel de control" width="48" height="48" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <i class="icon-fallback fa-solid fa-sliders" style="display:none"></i>
+      <span>Panel de control</span>
+    </div>
+    <div class="icon" id="icon-recyclebin" data-id="recyclebin" data-slot="">
+      <img id="recyclebin-img" src="img/recycle-bin.png" alt="Papelera" width="48" height="48" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <i class="icon-fallback fa-solid fa-trash-can" style="display:none"></i>
+      <span>Papelera de reciclaje</span>
+    </div>
+    <div id="dynamic-icons"></div>
+  </div>
+
+  <!-- MENÚ CONTEXTUAL: escritorio -->
+  <div id="desktop-menu" class="context-menu hidden">
+    <ul>
+      <li class="submenu"><i class="fa-solid fa-eye"></i> Ver
+        <ul class="submenu-list">
+          <li data-action="icon-xlarge"><i class="fa-solid fa-expand"></i> Iconos muy grandes</li>
+          <li data-action="icon-large"><i class="fa-solid fa-maximize"></i> Iconos grandes</li>
+          <li data-action="icon-medium"><i class="fa-solid fa-table-cells"></i> Iconos medianos</li>
+          <li data-action="icon-small"><i class="fa-solid fa-table-cells-large"></i> Iconos pequeños</li>
+          <li class="separator"></li>
+          <li data-action="toggle-hidden"><i class="fa-solid fa-eye-slash"></i> <span id="menu-hidden-label">Mostrar ocultos</span></li>
+          <li data-action="toggle-extensions"><i class="fa-solid fa-file"></i> <span id="menu-ext-label">Mostrar extensiones</span></li>
+          <li data-action="toggle-nav-panel"><i class="fa-solid fa-bars"></i> Panel de navegación</li>
+        </ul>
+      </li>
+      <li class="submenu"><i class="fa-solid fa-sort"></i> Ordenar por
+        <ul class="submenu-list">
+          <li data-action="sort-name">Nombre</li>
+          <li data-action="sort-type">Tipo</li>
+          <li data-action="sort-date">Fecha modificación</li>
+          <li data-action="sort-size">Tamaño</li>
+        </ul>
+      </li>
+      <li data-action="refresh"><i class="fa-solid fa-rotate-right"></i> Actualizar</li>
+      <li class="separator"></li>
+      <li class="submenu"><i class="fa-solid fa-plus"></i> Nuevo ▶
+        <ul class="submenu-list">
+          <li data-action="new-folder"><i class="fa-solid fa-folder"></i> Carpeta</li>
+          <li data-action="new-txt"><i class="fa-solid fa-file-lines"></i> Documento de texto</li>
+        </ul>
+      </li>
+      <li class="separator"></li>
+      <li data-action="open-settings"><i class="fa-solid fa-gear"></i> Personalizar escritorio</li>
+    </ul>
+  </div>
+
+  <!-- MENÚ CONTEXTUAL: archivo/carpeta -->
+  <div id="file-menu" class="context-menu hidden">
+    <ul>
+      <li data-action="open"><i class="fa-solid fa-folder-open"></i> Abrir</li>
+      <li data-action="run-as-admin"><i class="fa-solid fa-shield"></i> Ejecutar como administrador</li>
+      <li class="separator"></li>
+      <li data-action="cut"><i class="fa-solid fa-scissors"></i> Cortar</li>
+      <li data-action="copy-file"><i class="fa-solid fa-copy"></i> Copiar</li>
+      <li class="separator"></li>
+      <li data-action="rename"><i class="fa-solid fa-pencil"></i> Cambiar nombre</li>
+      <li data-action="shortcut"><i class="fa-solid fa-arrow-up-right-from-square"></i> Crear acceso directo</li>
+      <li data-action="delete"><i class="fa-solid fa-trash"></i> Mover a la Papelera</li>
+      <li class="separator"></li>
+      <li data-action="toggle-hidden-file"><i class="fa-solid fa-eye-slash"></i> Ocultar archivo</li>
+      <li data-action="download-file"><i class="fa-solid fa-download"></i> Descargar al PC</li>
+      <li data-action="properties"><i class="fa-solid fa-circle-info"></i> Propiedades</li>
+    </ul>
+  </div>
+
+  <!-- MENÚ CONTEXTUAL: selección múltiple -->
+  <div id="multi-menu" class="context-menu hidden">
+    <ul>
+      <li data-action="multi-delete"><i class="fa-solid fa-trash"></i> Mover a la Papelera (<span id="multi-count">0</span> elem.)</li>
+      <li data-action="multi-cut"><i class="fa-solid fa-scissors"></i> Cortar selección</li>
+      <li data-action="multi-copy"><i class="fa-solid fa-copy"></i> Copiar selección</li>
+      <li data-action="multi-hidden"><i class="fa-solid fa-eye-slash"></i> Ocultar seleccionados</li>
+    </ul>
+  </div>
+
+  <!-- MENÚ CONTEXTUAL: papelera -->
+  <div id="recyclebin-menu" class="context-menu hidden">
+    <ul>
+      <li data-action="open-bin"><i class="fa-solid fa-folder-open"></i> Abrir</li>
+      <li data-action="empty-bin"><i class="fa-solid fa-trash-can"></i> Vaciar Papelera de reciclaje</li>
+    </ul>
+  </div>
+
+  <!-- MENÚ CONTEXTUAL: bandeja del sistema -->
+  <div id="tray-extra-menu" class="context-menu hidden">
+    <ul>
+      <li data-action="suspend"><i class="fa-solid fa-moon"></i> Suspender</li>
+      <li data-action="restart"><i class="fa-solid fa-rotate"></i> Reiniciar</li>
+      <li class="separator"></li>
+      <li data-action="shutdown"><i class="fa-solid fa-power-off"></i> Apagar</li>
+      <li class="separator"></li>
+      <li data-action="clear-data" style="color:#c0392b;"><i class="fa-solid fa-trash-can"></i> Borrar Datos</li>
+    </ul>
+  </div>
+
+  <!-- MENÚ CONTEXTUAL: panel del explorador (clic derecho en espacio vacío) -->
+  <div id="explorer-ctx" class="context-menu hidden">
+    <ul>
+      <li class="submenu"><i class="fa-solid fa-eye"></i> Ver
+        <ul class="submenu-list">
+          <li data-exaction="view-large"><i class="fa-solid fa-maximize"></i> Iconos grandes</li>
+          <li data-exaction="view-medium"><i class="fa-solid fa-table-cells"></i> Iconos medianos</li>
+          <li data-exaction="view-small"><i class="fa-solid fa-table-cells-large"></i> Iconos pequeños</li>
+          <li data-exaction="view-list"><i class="fa-solid fa-list"></i> Lista</li>
+          <li data-exaction="view-details"><i class="fa-solid fa-bars"></i> Detalles</li>
+          <li class="separator"></li>
+          <li data-exaction="toggle-hidden"><i class="fa-solid fa-eye-slash"></i> Elementos ocultos</li>
+          <li data-exaction="toggle-ext"><i class="fa-solid fa-file"></i> Extensiones de nombre</li>
+          <li data-exaction="toggle-nav"><i class="fa-solid fa-sidebar"></i> Panel de navegación</li>
+        </ul>
+      </li>
+      <li class="submenu"><i class="fa-solid fa-sort"></i> Ordenar por
+        <ul class="submenu-list">
+          <li data-exaction="sort-name">Nombre</li>
+          <li data-exaction="sort-type">Tipo</li>
+          <li data-exaction="sort-date">Fecha</li>
+          <li data-exaction="sort-size">Tamaño</li>
+        </ul>
+      </li>
+      <li data-exaction="refresh"><i class="fa-solid fa-rotate-right"></i> Actualizar</li>
+      <li class="separator"></li>
+      <li class="submenu"><i class="fa-solid fa-plus"></i> Nuevo ▶
+        <ul class="submenu-list">
+          <li data-exaction="new-folder"><i class="fa-solid fa-folder"></i> Carpeta</li>
+          <li data-exaction="new-txt"><i class="fa-solid fa-file-lines"></i> Documento de texto</li>
+        </ul>
+      </li>
+      <li class="separator"></li>
+      <li data-exaction="paste"><i class="fa-solid fa-paste"></i> Pegar</li>
+    </ul>
+  </div>
+
+  <!-- PANEL TODOS LOS PROGRAMAS -->
+  <div id="all-programs-panel" class="all-programs-panel hidden">
+    <div class="all-programs-header">
+      <button id="all-programs-back"><i class="fa-solid fa-chevron-left"></i> Atrás</button>
+      <span>Todos los programas</span>
+    </div>
+    <div class="all-programs-search-wrap">
+      <i class="fa-solid fa-magnifying-glass" style="color:#888;font-size:.78rem;"></i>
+      <input type="text" id="all-programs-search" placeholder="Buscar programas..." autocomplete="off">
+    </div>
+    <ul id="all-programs-list">
+      <li data-action="open-explorer" draggable="true"><i class="fa-solid fa-folder-open" style="color:#f0b429"></i> Explorador de Windows</li>
+      <li data-action="open-notepad" draggable="true"><i class="fa-solid fa-file-lines" style="color:#0c64b5"></i> Bloc de notas</li>
+      <li data-action="open-paint" draggable="true"><i class="fa-solid fa-palette" style="color:#e74c3c"></i> Paint</li>
+      <li data-action="open-calc" draggable="true"><i class="fa-solid fa-calculator" style="color:#27ae60"></i> Calculadora</li>
+      <li data-action="open-mediaplayer" draggable="true"><i class="fa-solid fa-circle-play" style="color:#e67e22"></i> Reproductor de Windows Media</li>
+      <li data-action="open-ie" draggable="true"><i class="fa-solid fa-globe" style="color:#2980b9"></i> Internet Explorer</li>
+      <li data-action="open-defender" draggable="true"><i class="fa-solid fa-shield-halved" style="color:#1abc9c"></i> Windows Defender</li>
+      <li data-action="open-charmap" draggable="true"><i class="fa-solid fa-font" style="color:#8e44ad"></i> Mapa de caracteres</li>
+      <li data-action="open-cmd" draggable="true"><i class="fa-solid fa-terminal" style="color:#2c3e50"></i> Símbolo del sistema</li>
+      <li data-action="open-snipping" draggable="true"><i class="fa-solid fa-crop" style="color:#16a085"></i> Recortes</li>
+      <li data-action="open-scratch" draggable="true"><i class="fa-solid fa-code" style="color:#ff6680"></i> Scratch</li>
+      <li data-action="open-settings" draggable="true"><i class="fa-solid fa-gear" style="color:#7f8c8d"></i> Configuración del sistema</li>
+      <li class="separator"></li>
+      <li class="programs-group-title"><i class="fa-solid fa-gamepad"></i> Juegos</li>
+      <li data-action="open-solitaire" draggable="true"><i class="fa-solid fa-heart" style="color:#c0392b"></i> Solitario</li>
+      <li data-action="open-minesweeper" draggable="true"><i class="fa-solid fa-bomb" style="color:#2c3e50"></i> Buscaminas</li>
+      <li data-action="open-minecraft" draggable="true"><i class="fa-solid fa-cube" style="color:#5b9f28"></i> Minecraft Launcher</li>
+      <li class="separator"></li>
+      <li class="programs-group-title"><i class="fa-solid fa-dice"></i> Más Juegos</li>
+      <li data-action="open-pacman" draggable="true"><i class="fa-solid fa-circle" style="color:#FFD700"></i> Pac-Man</li>
+      <li data-action="open-dino" draggable="true"><i class="fa-solid fa-dragon" style="color:#555"></i> Dinosaur</li>
+      <li data-action="open-leveldevil" draggable="true"><i class="fa-solid fa-ghost" style="color:#e74c3c"></i> Level Devil</li>
+      <li data-action="open-sushiparty" draggable="true"><i class="fa-solid fa-fish" style="color:#e67e22"></i> Sushi Party IO <small style="color:#888">(2J)</small></li>
+      <li data-action="open-appleworm" draggable="true"><i class="fa-solid fa-apple-whole" style="color:#27ae60"></i> Apple Worm</li>
+      <li data-action="open-footballmasters" draggable="true"><i class="fa-solid fa-futbol" style="color:#3498db"></i> Football Masters <small style="color:#888">(2J)</small></li>
+      <li data-action="open-longcat" draggable="true"><i class="fa-solid fa-cat" style="color:#f39c12"></i> Longcat</li>
+      <li data-action="open-ironsnout" draggable="true"><i class="fa-solid fa-hand-back-fist" style="color:#c0392b"></i> Iron Snout</li>
+      <li data-action="open-subwaysurfers" draggable="true"><i class="fa-solid fa-person-running" style="color:#9b59b6"></i> Subway Surfers</li>
+    </ul>
+  </div>
+
+  <!-- ELEMENTOS DE UTILIDAD -->
+  <div id="selection-box" class="selection-box hidden"></div>
+  <div id="tooltip" class="tooltip hidden"></div>
+  <div id="windows-container"></div>
+
+  <!-- BARRA DE TAREAS -->
+  <div class="taskbar">
+    <button id="start-button" class="start-button" title="Inicio">
+      <img src="img/taskbar-start.png" alt="Inicio" width="46" height="40"
+           onerror="this.style.display='none';document.getElementById('start-fallback').style.display='flex'">
+      <span id="start-fallback" class="start-fallback" style="display:none;"><i class="fa-brands fa-windows"></i></span>
+    </button>
+    <div class="taskbar-divider"></div>
+    <div id="taskbar-windows" class="taskbar-windows"></div>
+    <div class="taskbar-spacer"></div>
+    <div class="system-tray">
+      <button id="wifi-btn" class="tray-btn" title="Red inalámbrica">
+        <img id="wifi-img" src="img/taskbar-wifi-3.png" alt="Wi-Fi" width="16" height="16"
+             onerror="this.style.display='none';document.getElementById('wifi-fallback').style.display='inline'">
+        <i id="wifi-fallback" class="fa-solid fa-wifi" style="display:none;font-size:14px;"></i>
+      </button>
+      <button id="battery-btn" class="tray-btn" title="Batería">
+        <img id="battery-img" src="img/taskbar-bat-4.png" alt="Batería" width="16" height="16"
+             onerror="this.style.display='none';document.getElementById('bat-fallback').style.display='inline'">
+        <i id="bat-fallback" class="fa-solid fa-battery-full" style="display:none;font-size:14px;"></i>
+      </button>
+      <button id="tray-menu-btn" class="tray-btn" title="Opciones del sistema">
+        <img src="img/taskbar-tray.png" alt="Más" width="16" height="16"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+        <i class="fa-solid fa-ellipsis-vertical" style="display:none;font-size:14px;"></i>
+      </button>
+      <button id="clock-btn" class="tray-btn clock-btn" title="Ver fecha y hora">
+        <span id="clock">00:00</span>
+        <span id="clock-date" class="clock-date">1/1/2024</span>
+      </button>
+      <button id="show-desktop-btn" class="show-desktop-btn" title="Mostrar escritorio"></button>
+    </div>
+  </div>
+
+  <!-- MENÚ INICIO -->
+  <div id="start-menu" class="start-menu hidden">
+    <div class="start-menu-top">
+      <div class="start-menu-user">
+        <i class="fa-solid fa-circle-user start-user-icon"></i>
+        <span class="start-user-name" id="start-username">Usuario</span>
+      </div>
+    </div>
+    <div class="start-menu-body">
+      <div class="start-menu-left" id="start-menu-left">
+        <ul>
+          <li data-action="open-explorer"><i class="fa-solid fa-folder-open" style="font-size:20px;color:#f0b429;"></i> Explorador de archivos</li>
+          <li data-action="open-notepad"><i class="fa-solid fa-file-lines" style="font-size:20px;color:#0c64b5;"></i> Bloc de notas</li>
+          <li data-action="open-paint"><i class="fa-solid fa-palette" style="font-size:20px;color:#e74c3c;"></i> Paint</li>
+          <li data-action="open-calc"><i class="fa-solid fa-calculator" style="font-size:20px;color:#27ae60;"></i> Calculadora</li>
+        </ul>
+        <div class="start-menu-separator"></div>
+        <ul>
+          <li data-action="all-programs"><i class="fa-solid fa-th-large"></i> Todos los programas <i class="fa-solid fa-chevron-right" style="margin-left:auto;"></i></li>
+        </ul>
+      </div>
+      <div class="start-menu-right">
+        <ul>
+          <li data-action="open-mycomputer"><i class="fa-solid fa-computer" style="color:#0c64b5;"></i> Mi PC</li>
+          <li data-action="open-documents"><i class="fa-solid fa-folder" style="color:#f0b429;"></i> Documentos</li>
+          <li data-action="open-controlpanel"><i class="fa-solid fa-sliders" style="color:#0c64b5;"></i> Panel de control</li>
+          <li data-action="open-settings"><i class="fa-solid fa-gear" style="color:#7f8c8d;"></i> Configuración</li>
+          <li data-action="open-network"><i class="fa-solid fa-network-wired" style="color:#0c64b5;"></i> Red</li>
+          <li data-action="open-recyclebin"><i class="fa-solid fa-trash-can" style="color:#888;"></i> Papelera de reciclaje</li>
+        </ul>
+        <div class="start-menu-separator"></div>
+        <ul>
+          <li data-action="shutdown-from-menu"><i class="fa-solid fa-power-off" style="color:#c0392b;"></i> Apagar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALENDARIO -->
+  <div id="calendar" class="calendar hidden">
+    <header>
+      <button id="cal-prev" class="cal-nav"><i class="fa-solid fa-chevron-left"></i></button>
+      <span id="cal-title">Enero 2024</span>
+      <button id="cal-next" class="cal-nav"><i class="fa-solid fa-chevron-right"></i></button>
+    </header>
+    <table id="cal-table">
+      <thead><tr><th>Lu</th><th>Ma</th><th>Mi</th><th>Ju</th><th>Vi</th><th>Sa</th><th>Do</th></tr></thead>
+      <tbody id="cal-body"></tbody>
+    </table>
+  </div>
+
+  <!-- PANTALLA APAGADO -->
+  <div id="shutdown-screen" class="shutdown-screen hidden">
+    <div class="shutdown-content">
+      <i class="fa-brands fa-windows shutdown-logo"></i>
+      <p id="shutdown-msg">Apagando...</p>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
